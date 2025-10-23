@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpaper Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            font-family: system-ui, sans-serif;
+            color: white;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .wallpaper-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .wallpaper-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .wallpaper-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .wallpaper-info {
+            padding: 15px;
+        }
+
+        .wallpaper-name {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #fff;
+            word-break: break-word;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #5a7fb5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #ff6b6b;
+            grid-column: 1 / -1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .wallpaper-card {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            
+            body {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Wallpaper Gallery</h1>
+        <p>All images from your assets folder</p>
+    </div>
+
+    <div class="gallery" id="gallery">
+        <div class="loading">Loading wallpapers...</div>
+    </div>
+
+    <script>
+        // This will automatically discover all images in your assets folder
+        // You just need to upload images to your /assets folder
+        const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.bmp'];
+        const assetFolder = 'assets/';
+        
+        // You can manually list your images here, or the script will try to auto-discover them
+        const manualImageList = [
+            // Add your image filenames here if auto-discovery doesn't work
+            // "wallpaper1.jpg",
+            // "nature.png",
+            // "abstract.jpg"
+        ];
+
+        const gallery = document.getElementById('gallery');
+
+        // Function to create a download button
+        function createDownloadButton(imageUrl, fileName) {
+            const button = document.createElement('button');
+            button.className = 'download-btn';
+            button.textContent = 'Download';
+            button.onclick = function(e) {
+                e.stopPropagation();
+                
+                // Create a temporary anchor element to trigger download
+                const a = document.createElement('a');
+                a.href = imageUrl;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+            return button;
+        }
+
+        // Function to display wallpapers
+        function displayWallpapers(images) {
+            gallery.innerHTML = '';
+            
+            if (images.length === 0) {
+                gallery.innerHTML = '<div class="error">No wallpapers found in assets folder</div>';
+                return;
+            }
+            
+            // Shuffle the array for random order
+            const shuffledImages = [...images].sort(() => Math.random() - 0.5);
+            
+            shuffledImages.forEach(image => {
+                const card = document.createElement('div');
+                card.className = 'wallpaper-card';
+                
+                const img = document.createElement('img');
+                img.src = assetFolder + image;
+                img.alt = image;
+                img.className = 'wallpaper-img';
+                
+                // Handle image loading errors
+                img.onerror = function() {
+                    console.warn(`Failed to load image: ${image}`);
+                    card.style.display = 'none'; // Hide the card if image fails to load
+                };
+                
+                const info = document.createElement('div');
+                info.className = 'wallpaper-info';
+                
+                const name = document.createElement('div');
+                name.className = 'wallpaper-name';
+                name.textContent = image;
+                
+                const downloadBtn = createDownloadButton(assetFolder + image, image);
+                
+                info.appendChild(name);
+                info.appendChild(downloadBtn);
+                
+                card.appendChild(img);
+                card.appendChild(info);
+                gallery.appendChild(card);
+            });
+        }
+
+        // Try to auto-discover images (this works if you have a way to list directory contents)
+        // For GitHub Pages, we'll try to use the manual list first, then fallback to trying common filenames
+        async function discoverImages() {
+            // If manual list is provided, use it
+            if (manualImageList.length > 0) {
+                displayWallpapers(manualImageList);
+                return;
+            }
+            
+            // Otherwise, try to auto-discover by testing for common image names
+            const discoveredImages = [];
+            const testImages = [
+                'wallpaper1.jpg', 'wallpaper2.jpg', 'wallpaper3.jpg',
+                'background1.png', 'background2.png',
+                'image1.jpg', 'image2.jpg', 'nature.jpg', 'abstract.png'
+            ];
+            
+            // Test which images exist (this is a basic approach)
+            for (const testImage of testImages) {
+                try {
+                    const img = new Image();
+                    await new Promise((resolve, reject) => {
+                        img.onload = resolve;
+                        img.onerror = reject;
+                        img.src = assetFolder + testImage;
+                    });
+                    discoveredImages.push(testImage);
+                } catch (e) {
+                    // Image doesn't exist, continue
+                }
+            }
+            
+            if (discoveredImages.length > 0) {
+                displayWallpapers(discoveredImages);
+            } else {
+                gallery.innerHTML = '<div class="error">No wallpapers found. Please add images to your assets folder and update the manualImageList array in the script.</div>';
+            }
+        }
+
+        // Initialize the gallery
+        discoverImages();
+    </script>
+</body>
+</html>
