@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Wallpaper Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            gap: 15px;
+        }
+
+        .wallpaper {
+            width: 95%;
+            max-width: 1200px;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .wallpaper:hover {
+            transform: scale(1.01);
+        }
+
+        .wallpaper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .loading {
+            color: #fff;
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+        }
+
+        /* Simple fade-in animation for images */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .wallpaper img {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .gallery {
+                gap: 10px;
+                padding: 10px 0;
+            }
+            
+            .wallpaper {
+                width: 98%;
+                height: 80vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery" id="gallery">
+        <div class="loading">Loading wallpapers...</div>
+    </div>
+
+    <script>
+        // Replace these with your actual image paths in your GitHub /assets folder
+        const wallpaperPaths = [
+            "assets/wallpaper1.jpg",
+            "assets/wallpaper2.jpg",
+            "assets/wallpaper3.jpg",
+            "assets/wallpaper4.jpg",
+            "assets/wallpaper5.jpg",
+            "assets/wallpaper6.jpg",
+            "assets/wallpaper7.jpg",
+            "assets/wallpaper8.jpg"
+        ];
+
+        const gallery = document.getElementById('gallery');
+        
+        // Clear loading message
+        gallery.innerHTML = '';
+
+        // Create wallpaper elements
+        wallpaperPaths.forEach(path => {
+            const wallpaperDiv = document.createElement('div');
+            wallpaperDiv.className = 'wallpaper';
+            
+            const img = document.createElement('img');
+            img.src = path;
+            img.alt = "Wallpaper";
+            
+            // Add error handling for missing images
+            img.onerror = function() {
+                this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zNWVtIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+PC9zdmc+';
+                console.error(`Failed to load image: ${path}`);
+            };
+            
+            wallpaperDiv.appendChild(img);
+            gallery.appendChild(wallpaperDiv);
+        });
+    </script>
+</body>
+</html>
