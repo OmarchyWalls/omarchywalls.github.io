@@ -14,34 +14,33 @@
         body {
             background: #0a0a0a;
             font-family: system-ui, sans-serif;
-            padding: 20px;
+            padding: 10px;
             min-height: 100vh;
         }
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
-            max-width: 1400px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 8px;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
         .wallpaper-card {
             position: relative;
-            border-radius: 8px;
+            border-radius: 6px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
             aspect-ratio: 16/9;
         }
 
         .wallpaper-card:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
 
         .wallpaper-card:hover .download-btn {
             opacity: 1;
-            transform: translateY(0);
         }
 
         .wallpaper-img {
@@ -53,11 +52,11 @@
 
         .download-btn {
             position: absolute;
-            bottom: 15px;
-            right: 15px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.9);
+            bottom: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.95);
             border: none;
             border-radius: 50%;
             cursor: pointer;
@@ -65,9 +64,7 @@
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
         }
 
         .download-btn:hover {
@@ -76,8 +73,8 @@
         }
 
         .download-icon {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
         }
 
         .download-icon path {
@@ -91,80 +88,79 @@
             grid-column: 1 / -1;
         }
 
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Always show download buttons on mobile */
+        @media (max-width: 768px) {
+            .download-btn {
+                opacity: 1;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 6px;
+            }
+        }
+
+        /* Fade in animation */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .wallpaper-card {
-            animation: fadeIn 0.5s ease;
-        }
-
-        @media (max-width: 768px) {
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 10px;
-            }
-            
-            body {
-                padding: 10px;
-            }
-            
-            .download-btn {
-                opacity: 1;
-                transform: translateY(0);
-                width: 35px;
-                height: 35px;
-            }
-            
-            .download-icon {
-                width: 18px;
-                height: 18px;
-            }
+            animation: fadeIn 0.3s ease;
         }
     </style>
 </head>
 <body>
+    <div class="controls">
+        <span id="imageCount">Loading images...</span>
+    </div>
+    
     <div class="gallery" id="gallery">
-        <div class="loading">Loading images...</div>
+        <div class="loading">Discovering images...</div>
     </div>
 
     <script>
-        // Configuration - Update this with your actual image filenames
-        const imageList = [
-            "wallpaper1.jpg",
-            "wallpaper2.jpg", 
-            "wallpaper3.jpg",
-            "wallpaper4.jpg",
-            "wallpaper5.jpg",
-            "wallpaper6.jpg"
-        ];
-
         const assetFolder = 'assets/';
         const gallery = document.getElementById('gallery');
+        const imageCount = document.getElementById('imageCount');
 
         // Download icon SVG
         const downloadIcon = `<svg class="download-icon" viewBox="0 0 24 24">
             <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
         </svg>`;
 
+        // Common image extensions
+        const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG'];
+
         // Function to create download button
         function createDownloadButton(imageUrl, fileName) {
             const button = document.createElement('button');
             button.className = 'download-btn';
             button.innerHTML = downloadIcon;
+            button.title = 'Download';
             button.onclick = function(e) {
                 e.stopPropagation();
-                
-                // Trigger download
-                const a = document.createElement('a');
-                a.href = imageUrl;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+                downloadImage(imageUrl, fileName);
             };
             return button;
+        }
+
+        // Function to download image
+        function downloadImage(imageUrl, fileName) {
+            const a = document.createElement('a');
+            a.href = imageUrl;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
         // Function to display images
@@ -172,9 +168,11 @@
             gallery.innerHTML = '';
             
             if (images.length === 0) {
-                gallery.innerHTML = '<div class="loading">No images found</div>';
+                gallery.innerHTML = '<div class="loading">No images found in assets folder</div>';
                 return;
             }
+            
+            imageCount.textContent = `${images.length} wallpapers loaded`;
             
             // Shuffle images for random order
             const shuffledImages = [...images].sort(() => Math.random() - 0.5);
@@ -187,9 +185,11 @@
                 img.src = assetFolder + image;
                 img.alt = '';
                 img.className = 'wallpaper-img';
+                img.loading = 'lazy'; // Lazy loading for performance
                 
                 // Handle image errors
                 img.onerror = function() {
+                    console.log('Failed to load:', image);
                     card.style.display = 'none';
                 };
                 
@@ -201,40 +201,97 @@
             });
         }
 
-        // Auto-discover images or use manual list
-        async function loadImages() {
-            // Use manual list if provided
-            if (imageList.length > 0) {
-                displayImages(imageList);
-                return;
+        // Method 1: Try to get image list from a server endpoint (if you can create one)
+        async function tryServerDiscovery() {
+            try {
+                // This would require a server-side component
+                const response = await fetch('/api/images');
+                const images = await response.json();
+                return images;
+            } catch (error) {
+                return null;
             }
+        }
+
+        // Method 2: Use a predefined pattern for numbered images
+        function discoverNumberedImages() {
+            const discovered = [];
             
-            // Try to auto-discover images (basic approach)
-            const discoveredImages = [];
-            const testNames = [
-                'wallpaper1.jpg', 'wallpaper2.jpg', 'wallpaper3.jpg',
-                'image1.jpg', 'image2.jpg', 'bg1.png', 'bg2.png'
+            // Check for common numbering patterns
+            const patterns = [
+                'wallpaper{}.jpg',
+                'image{}.jpg', 
+                'img{}.jpg',
+                '{}.jpg',
+                'wallpaper{}.png',
+                'image{}.png'
             ];
             
-            for (const name of testNames) {
-                try {
-                    await new Promise((resolve, reject) => {
-                        const img = new Image();
-                        img.onload = resolve;
-                        img.onerror = reject;
-                        img.src = assetFolder + name;
+            let foundCount = 0;
+            let batch = 1;
+            
+            // Check in batches to avoid too many requests
+            function checkBatch() {
+                const start = (batch - 1) * 100 + 1;
+                const end = batch * 100;
+                let checked = 0;
+                
+                for (let i = start; i <= end; i++) {
+                    patterns.forEach(pattern => {
+                        const filename = pattern.replace('{}', i);
+                        checkImageExists(filename).then(exists => {
+                            if (exists) {
+                                discovered.push(filename);
+                                foundCount++;
+                            }
+                            checked++;
+                            
+                            if (checked === patterns.length * 100) {
+                                // This batch is done
+                                if (foundCount > 0 || batch < 10) { // Limit to 1000 images check
+                                    batch++;
+                                    setTimeout(checkBatch, 100);
+                                } else {
+                                    displayImages(discovered);
+                                }
+                            }
+                        });
                     });
-                    discoveredImages.push(name);
-                } catch (e) {
-                    // Image doesn't exist, continue
                 }
             }
             
-            displayImages(discoveredImages);
+            checkBatch();
         }
 
-        // Initialize gallery
-        loadImages();
+        // Method 3: Create a manifest file (RECOMMENDED)
+        // Create a simple text file listing all your images
+        async function loadFromManifest() {
+            try {
+                const response = await fetch('image-manifest.txt');
+                const text = await response.text();
+                const images = text.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line && imageExtensions.some(ext => line.toLowerCase().endsWith('.' + ext)));
+                
+                displayImages(images);
+            } catch (error) {
+                // Fallback to numbered discovery
+                discoverNumberedImages();
+            }
+        }
+
+        // Helper function to check if image exists
+        function checkImageExists(filename) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = assetFolder + filename;
+            });
+        }
+
+        // Initialize gallery - try manifest first, then fallback
+        loadFromManifest();
     </script>
 </body>
 </html>
