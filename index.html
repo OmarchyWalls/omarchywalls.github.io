@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>HD Linux Wallpapers | Arch, Hyprland, and Ricing Backgrounds</title>
+    <title>Arch Linux Wallpapers & Hyprland Ricing Backgrounds | 4K HD</title>
     
-    <meta name="description" content="Download high-resolution 4K/HD wallpapers for the Linux community. Find minimalist, aesthetic backgrounds for Arch Linux, Hyprland, and Unixporn ricing setups.">
+    <meta name="description" content="Download free 4K HD minimalist wallpapers for Linux, Arch, and Hyprland. Essential backgrounds for ricing, dotfile setups, and custom desktop environments.">
     
-    <meta name="keywords" content="Linux wallpapers, Arch wallpapers, Hyprland, Ricing, Unixporn, 4K Linux backgrounds, Minimalist desktop, Aesthetic, Open Source, Dotfiles, GTK themes">
+    <meta name="keywords" content="Linux wallpapers, Arch wallpapers, Hyprland, Ricing, Unixporn, 4K Linux backgrounds, Minimalist desktop, Wayland, Dotfiles, Sway wallpapers, free desktop backgrounds">
     
     <meta name="author" content="ArchImg">
-    <meta name="robots" content="index, follow">
-
+    <meta name="robots" content="index, follow"> 
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -22,10 +22,8 @@
         gtag('config', 'G-XXXXXXXXXX'); 
     </script>
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
-     crossorigin="anonymous"></script>
-     
     <style>
+        /* Existing CSS code remains the same */
         * {
             margin: 0;
             padding: 0;
@@ -39,17 +37,14 @@
             min-height: 100vh;
         }
         
-        /* AD Container Styling */
-        .ad-container {
-            grid-column: 1 / -1; /* Spans across all columns in the grid */
-            text-align: center;
-            margin: 20px 0;
-            padding: 10px 0;
-            min-height: 100px; /* Reserves space for the ad to load */
-            background: #151515;
-            border: 1px dashed #333;
-            color: #666;
+        /* New subtle H1 styling for SEO */
+        h1 {
+            color: #444; /* Dark grey color to be subtle */
             font-size: 0.8rem;
+            text-align: center;
+            padding: 10px 0;
+            margin-bottom: 5px;
+            font-weight: 400;
         }
 
         .gallery {
@@ -123,7 +118,6 @@
         }
 
         .controls {
-            /* Removed padding and margin to keep a minimal header */
             text-align: center;
             margin-bottom: 20px;
             color: #666;
@@ -139,10 +133,6 @@
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
                 gap: 6px;
             }
-            
-            .ad-container {
-                min-height: 50px; /* Smaller ad slot for mobile */
-            }
         }
 
         @keyframes fadeIn {
@@ -157,40 +147,14 @@
 </head>
 <body>
     
-    <h1 style="text-align: center; color: #333; font-size: 0.5rem; margin-bottom: 5px;">HD Linux Wallpapers, Arch & Hyprland Backgrounds</h1>
+    <h1>4K Arch Linux Wallpapers for Ricing and Desktop Customization</h1>
 
-    <div class="ad-container">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="1122334455"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        Ad Space (728x90)
-    </div>
-    
     <div class="controls">
-        <span id="imageCount">Collection of Ricing, Arch, and Hyprland compatible Wallpapers</span>
+        <span id="imageCount">Collection of HD Wallpapers for Linux, Arch, and Hyprland Setups</span>
     </div>
     
     <div class="gallery" id="gallery">
         <div class="loading">Discovering images...</div>
-    </div>
-    
-    <div class="ad-container">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="6677889900" 
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        Ad Space (300x250)
     </div>
 
     <script>
@@ -211,7 +175,7 @@
             const button = document.createElement('button');
             button.className = 'download-btn';
             button.innerHTML = downloadIcon;
-            button.title = 'Download';
+            button.title = 'Download Wallpaper';
             button.onclick = function(e) {
                 e.stopPropagation();
                 downloadImage(imageUrl, fileName);
@@ -238,9 +202,8 @@
                 return;
             }
             
-            // Update image count for SEO/User context
-            imageCount.textContent = `Found ${images.length} Arch and Linux Ricing Wallpapers`;
-
+            imageCount.textContent = `Displaying ${images.length} High-Resolution Ricing Wallpapers`;
+            
             // Shuffle images for random order
             const shuffledImages = [...images].sort(() => Math.random() - 0.5);
             
@@ -250,8 +213,11 @@
                 
                 const img = document.createElement('img');
                 img.src = assetFolder + image;
-                // SEO: Use a keyword-rich alt tag
-                img.alt = 'Arch Linux Wallpaper ' + image.replace(/\..+$/, ''); 
+                
+                // SEO: Add descriptive alt text using keywords and image filename
+                const altText = 'Arch Linux wallpaper aesthetic ' + image.replace(/\..+$/, '').replace(/[-_]/g, ' '); 
+                img.alt = altText;
+                
                 img.className = 'wallpaper-img';
                 img.loading = 'lazy'; // Lazy loading for performance
                 
@@ -269,11 +235,10 @@
             });
         }
 
-        // --- Original Image Discovery Logic ---
-        // (Keeping your original implementation for manifest/numbered discovery)
-
+        // Method 1: Try to get image list from a server endpoint (if you can create one)
         async function tryServerDiscovery() {
             try {
+                // This would require a server-side component
                 const response = await fetch('/api/images');
                 const images = await response.json();
                 return images;
@@ -282,9 +247,11 @@
             }
         }
 
+        // Method 2: Use a predefined pattern for numbered images
         function discoverNumberedImages() {
             const discovered = [];
             
+            // Check for common numbering patterns
             const patterns = [
                 'wallpaper{}.jpg', 'image{}.jpg', 'img{}.jpg', '{}.jpg',
                 'wallpaper{}.png', 'image{}.png'
@@ -293,6 +260,7 @@
             let foundCount = 0;
             let batch = 1;
             
+            // Check in batches to avoid too many requests
             function checkBatch() {
                 const start = (batch - 1) * 100 + 1;
                 const end = batch * 100;
@@ -309,7 +277,8 @@
                             checked++;
                             
                             if (checked === patterns.length * 100) {
-                                if (foundCount > 0 || batch < 10) {
+                                // This batch is done
+                                if (foundCount > 0 || batch < 10) { // Limit to 1000 images check
                                     batch++;
                                     setTimeout(checkBatch, 100);
                                 } else {
@@ -324,6 +293,8 @@
             checkBatch();
         }
 
+        // Method 3: Create a manifest file (RECOMMENDED)
+        // Create a simple text file listing all your images
         async function loadFromManifest() {
             try {
                 const response = await fetch('image-manifest.txt');
@@ -334,10 +305,12 @@
                 
                 displayImages(images);
             } catch (error) {
+                // Fallback to numbered discovery
                 discoverNumberedImages();
             }
         }
 
+        // Helper function to check if image exists
         function checkImageExists(filename) {
             return new Promise((resolve) => {
                 const img = new Image();
