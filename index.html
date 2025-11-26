@@ -3,299 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <meta name="description" content="Explore and download free HD Hyperland wallpapers for your desktop. High-quality, aesthetic wallpapers available for all screen resolutions." />
-  <meta name="keywords" content="Hyperland wallpapers, free HD wallpapers, desktop wallpapers, free Hyperland themes, download Hyperland wallpapers" />
-  <meta name="author" content="Your Website Name" />
+    
+    <title>ArchImg - HD Linux, Arch & Hyprland Wallpapers</title>
+    <meta name="description" content="Download free 4K/HD wallpapers for Linux, Arch Linux, Hyprland, and Unixporn ricing. Minimalist, aesthetic, and high-quality desktop backgrounds for your config.">
+    
+    <meta name="keywords" content="Linux wallpapers, Arch Linux background, Hyprland wallpaper, Unixporn, Ricing, Dotfiles, 4K wallpapers, Minimalist desktop, Aesthetic, Anime Linux, Tiling Window Manager, Wayland, Nord theme, Dracula theme, Gruvbox">
+    
+    <meta name="author" content="ArchImg">
+    <meta name="robots" content="index, follow">
 
-    <title>Wallpaper Gallery</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ArchImg - Premium Linux Wallpapers">
+    <meta property="og:description" content="The best collection of aesthetic wallpapers for your Linux rice.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        // Replace G-XXXXXXXXXX with your actual Measurement ID
+        gtag('config', 'G-XXXXXXXXXX'); 
+    </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-color: #0f0f12;
+            --card-bg: #1a1a1f;
+            --accent: #7aa2f7; /* Nordic Blue */
+            --accent-hover: #bb9af7;
+            --text-main: #c0caf5;
+            --text-muted: #565f89;
+            --border: #292e42;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background: #0a0a0a;
-            font-family: system-ui, sans-serif;
-            padding: 10px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header & Hero --- */
+        header {
+            background: rgba(15, 15, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: white;
+            text-decoration: none;
+        }
+        .logo span { color: var(--accent); }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* --- Ads --- */
+        .ad-banner {
+            width: 100%;
+            max-width: 970px;
+            height: 90px; /* Standard Leaderboard */
+            background: #151518;
+            border: 1px dashed var(--border);
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* --- Filter Bar --- */
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .tag:hover, .tag.active {
+            border-color: var(--accent);
+            color: white;
+            background: rgba(122, 162, 247, 0.1);
+        }
+
+        /* --- Gallery --- */
+        .container {
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
         }
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 8px;
-            max-width: 1600px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
         }
 
         .wallpaper-card {
-            position: relative;
-            border-radius: 6px;
+            background: var(--card-bg);
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
             aspect-ratio: 16/9;
+            cursor: pointer;
         }
 
         .wallpaper-card:hover {
-            transform: scale(1.03);
-        }
-
-        .wallpaper-card:hover .download-btn {
-            opacity: 1;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border-color: var(--accent);
         }
 
         .wallpaper-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
+            transition: opacity 0.3s;
         }
 
-        .download-btn {
+        .card-overlay {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
-            width: 32px;
-            height: 32px;
-            background: rgba(255, 255, 255, 0.95);
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .wallpaper-card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .icon-btn {
+            background: white;
             border: none;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transition: all 0.2s ease;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        .download-btn:hover {
-            background: white;
-            transform: scale(1.1);
+        .icon-btn:hover { transform: scale(1.1); }
+        .icon-btn svg { width: 18px; height: 18px; fill: #1a1a1f; }
+
+        /* --- Lightbox Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
-        .download-icon {
-            width: 16px;
-            height: 16px;
+        .modal-content {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(122, 162, 247, 0.2);
         }
 
-        .download-icon path {
-            fill: #333;
+        .modal-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
         }
 
-        .loading {
+        .btn-primary {
+            background: var(--accent);
+            color: #1a1a1f;
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* --- Footer --- */
+        footer {
+            margin-top: 4rem;
+            padding: 2rem;
             text-align: center;
-            padding: 40px;
-            color: #666;
-            grid-column: 1 / -1;
-        }
-
-        .controls {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #666;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
 
-        /* Always show download buttons on mobile */
+        .loading, .status-msg {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+
         @media (max-width: 768px) {
-            .download-btn {
-                opacity: 1;
-            }
-            
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 6px;
-            }
-        }
-
-        /* Fade in animation */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .wallpaper-card {
-            animation: fadeIn 0.3s ease;
+            .hero h1 { font-size: 1.8rem; }
+            .gallery { grid-template-columns: repeat(2, 1fr); }
+            .card-overlay { opacity: 1; background: linear-gradient(transparent, rgba(0,0,0,0.6)); padding: 10px;}
+            .icon-btn { width: 30px; height: 30px; }
         }
     </style>
 </head>
 <body>
-    <div class="controls">
-        <span id="imageCount">Images sourced from public GitHub repositories</span>
+
+    <header>
+        <a href="#" class="logo">Arch<span>Img</span></a>
+        </header>
+
+    <div class="hero">
+        <h1>Aesthetic Linux Wallpapers</h1>
+        <p>Curated HD & 4K backgrounds for your <strong>Arch Linux</strong>, <strong>Hyprland</strong>, and <strong>Unixporn</strong> ricing setups. Clean, minimal, and open source.</p>
+        
+        <div class="filter-bar">
+            <div class="tag active">All</div>
+            <div class="tag">Arch Linux</div>
+            <div class="tag">Hyprland</div>
+            <div class="tag">Minimal</div>
+            <div class="tag">Nature</div>
+            <div class="tag">Anime</div>
+        </div>
     </div>
-    
-    <div class="gallery" id="gallery">
-        <div class="loading">Discovering images...</div>
+
+    <div class="ad-banner">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <span>Advertisement Space</span>
+    </div>
+
+    <div class="container">
+        <div class="gallery" id="gallery">
+            <div class="loading">Searching assets folder for wallpapers...</div>
+        </div>
+    </div>
+
+    <div class="ad-banner">
+        <span>Advertisement Space</span>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 ArchImg. All rights reserved.</p>
+        <p style="font-size: 0.8rem; margin-top: 10px;">
+            Optimized for Linux Ricing • Arch • Hyprland • Wayland
+        </p>
+    </footer>
+
+    <div class="modal" id="imageModal" onclick="closeModal(event)">
+        <img src="" alt="Preview" class="modal-content" id="modalImg">
+        <div class="modal-actions">
+            <button class="btn-primary" id="modalDownloadBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download Full Res
+            </button>
+            <button class="btn-secondary" onclick="document.getElementById('imageModal').style.display='none'">Close</button>
+        </div>
     </div>
 
     <script>
-        const assetFolder = 'assets/';
+        const assetFolder = 'assets/'; // Ensure this folder exists!
         const gallery = document.getElementById('gallery');
-        const imageCount = document.getElementById('imageCount');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+        const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
 
-        // Download icon SVG
-        const downloadIcon = `<svg class="download-icon" viewBox="0 0 24 24">
-            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-        </svg>`;
+        // --- Gallery Logic ---
 
-        // Common image extensions
-        const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'JPG', 'JPEG', 'PNG'];
+        function displayImages(images) {
+            gallery.innerHTML = '';
+            
+            if (images.length === 0) {
+                gallery.innerHTML = `
+                    <div class="status-msg">
+                        <h3>No local images found</h3>
+                        <p>Make sure you have an <code>assets/</code> folder with numbered images (e.g., 1.jpg, 2.png) or a manifest file.</p>
+                    </div>`;
+                return;
+            }
 
-        // Function to create download button
-        function createDownloadButton(imageUrl, fileName) {
-            const button = document.createElement('button');
-            button.className = 'download-btn';
-            button.innerHTML = downloadIcon;
-            button.title = 'Download';
-            button.onclick = function(e) {
-                e.stopPropagation();
-                downloadImage(imageUrl, fileName);
-            };
-            return button;
+            // Shuffle for freshness
+            images.sort(() => Math.random() - 0.5);
+
+            images.forEach(image => {
+                const card = document.createElement('div');
+                card.className = 'wallpaper-card';
+                card.onclick = () => openModal(assetFolder + image, image);
+
+                const img = document.createElement('img');
+                img.src = assetFolder + image;
+                img.alt = 'Linux Wallpaper ' + image; // SEO: Alt text
+                img.className = 'wallpaper-img';
+                img.loading = 'lazy';
+
+                // Error handling: remove broken images
+                img.onerror = () => { card.style.display = 'none'; };
+
+                const overlay = document.createElement('div');
+                overlay.className = 'card-overlay';
+                
+                // Quick download button on card
+                const quickDL = document.createElement('button');
+                quickDL.className = 'icon-btn';
+                quickDL.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>`;
+                quickDL.title = "Download";
+                quickDL.onclick = (e) => {
+                    e.stopPropagation();
+                    downloadImage(assetFolder + image, image);
+                };
+
+                overlay.appendChild(quickDL);
+                card.appendChild(img);
+                card.appendChild(overlay);
+                gallery.appendChild(card);
+            });
         }
 
-        // Function to download image
-        function downloadImage(imageUrl, fileName) {
+        // --- Modal & Download Logic ---
+
+        function openModal(src, filename) {
+            modal.style.display = 'flex';
+            modalImg.src = src;
+            modalDownloadBtn.onclick = () => downloadImage(src, filename);
+        }
+
+        function closeModal(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") modal.style.display = 'none';
+        });
+
+        function downloadImage(url, fileName) {
             const a = document.createElement('a');
-            a.href = imageUrl;
+            a.href = url;
             a.download = fileName;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
         }
 
-        // Function to display images
-        function displayImages(images) {
-            gallery.innerHTML = '';
-            
-            if (images.length === 0) {
-                gallery.innerHTML = '<div class="loading">No images found in assets folder</div>';
-                return;
-            }
-            
-           // imageCount.textContent = `${images.length} wallpapers loaded`;
-            
-            // Shuffle images for random order
-            const shuffledImages = [...images].sort(() => Math.random() - 0.5);
-            
-            shuffledImages.forEach(image => {
-                const card = document.createElement('div');
-                card.className = 'wallpaper-card';
-                
-                const img = document.createElement('img');
-                img.src = assetFolder + image;
-                img.alt = '';
-                img.className = 'wallpaper-img';
-                img.loading = 'lazy'; // Lazy loading for performance
-                
-                // Handle image errors
-                img.onerror = function() {
-                    console.log('Failed to load:', image);
-                    card.style.display = 'none';
-                };
-                
-                const downloadBtn = createDownloadButton(assetFolder + image, image);
-                
-                card.appendChild(img);
-                card.appendChild(downloadBtn);
-                gallery.appendChild(card);
-            });
-        }
+        // --- Discovery Logic (Keep existing logic but cleaned up) ---
 
-        // Method 1: Try to get image list from a server endpoint (if you can create one)
-        async function tryServerDiscovery() {
-            try {
-                // This would require a server-side component
-                const response = await fetch('/api/images');
-                const images = await response.json();
-                return images;
-            } catch (error) {
-                return null;
-            }
-        }
-
-        // Method 2: Use a predefined pattern for numbered images
-        function discoverNumberedImages() {
-            const discovered = [];
-            
-            // Check for common numbering patterns
-            const patterns = [
-                'wallpaper{}.jpg',
-                'image{}.jpg', 
-                'img{}.jpg',
-                '{}.jpg',
-                'wallpaper{}.png',
-                'image{}.png'
-            ];
-            
-            let foundCount = 0;
-            let batch = 1;
-            
-            // Check in batches to avoid too many requests
-            function checkBatch() {
-                const start = (batch - 1) * 100 + 1;
-                const end = batch * 100;
-                let checked = 0;
-                
-                for (let i = start; i <= end; i++) {
-                    patterns.forEach(pattern => {
-                        const filename = pattern.replace('{}', i);
-                        checkImageExists(filename).then(exists => {
-                            if (exists) {
-                                discovered.push(filename);
-                                foundCount++;
-                            }
-                            checked++;
-                            
-                            if (checked === patterns.length * 100) {
-                                // This batch is done
-                                if (foundCount > 0 || batch < 10) { // Limit to 1000 images check
-                                    batch++;
-                                    setTimeout(checkBatch, 100);
-                                } else {
-                                    displayImages(discovered);
-                                }
-                            }
-                        });
-                    });
-                }
-            }
-            
-            checkBatch();
-        }
-
-        // Method 3: Create a manifest file (RECOMMENDED)
-        // Create a simple text file listing all your images
+        // Method 1: Manifest File
         async function loadFromManifest() {
             try {
                 const response = await fetch('image-manifest.txt');
+                if (!response.ok) throw new Error("No manifest");
                 const text = await response.text();
                 const images = text.split('\n')
                     .map(line => line.trim())
                     .filter(line => line && imageExtensions.some(ext => line.toLowerCase().endsWith('.' + ext)));
-                
                 displayImages(images);
             } catch (error) {
-                // Fallback to numbered discovery
+                // Fallback to auto-discovery
                 discoverNumberedImages();
             }
         }
 
-        // Helper function to check if image exists
-        function checkImageExists(filename) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = () => resolve(true);
-                img.onerror = () => resolve(false);
-                img.src = assetFolder + filename;
-            });
+        // Method 2: Brute Force Discovery (Numbered files 1.jpg, 2.png etc)
+        function discoverNumberedImages() {
+            const discovered = [];
+            const patterns = ['{}.jpg', '{}.png', '{}.jpeg', '{}.webp', 'wallpaper{}.jpg'];
+            let batch = 1;
+            let maxBatches = 5; // Check up to 500 potential filenames
+
+            function checkBatch() {
+                const start = (batch - 1) * 100 + 1;
+                const end = batch * 100;
+                let pending = 0;
+                let completed = 0;
+
+                for (let i = start; i <= end; i++) {
+                    patterns.forEach(pattern => {
+                        pending++;
+                        const filename = pattern.replace('{}', i);
+                        const img = new Image();
+                        img.onload = () => {
+                            discovered.push(filename);
+                            checkCompletion();
+                        };
+                        img.onerror = () => {
+                            checkCompletion();
+                        };
+                        img.src = assetFolder + filename;
+                    });
+                }
+
+                function checkCompletion() {
+                    completed++;
+                    if (completed === pending) {
+                        if (discovered.length > 0 || batch === maxBatches) {
+                            displayImages(discovered);
+                        } else {
+                            batch++;
+                            checkBatch();
+                        }
+                    }
+                }
+            }
+            checkBatch();
         }
 
-        // Initialize gallery - try manifest first, then fallback
+        // Start
         loadFromManifest();
+
     </script>
 </body>
 </html>
